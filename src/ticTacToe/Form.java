@@ -36,6 +36,7 @@ public class Form {
 		a=tictactoe;
 
 		a.addGameStateChangedListener(new ActionListener() {
+			
 			//this is called whenever state is changed in TicTacToe
 			public void actionPerformed(ActionEvent arg0) {
 				// Disable/Enables buttons depending on gameState

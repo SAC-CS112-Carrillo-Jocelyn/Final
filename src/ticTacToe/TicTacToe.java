@@ -29,6 +29,13 @@ public class TicTacToe {
 	public boolean isGameActive(){
 		return gameActive;
 	}
+	public String getTurn(){
+		if(xTurn)
+			return " X turn: ";
+		else
+			return " O turn: ";
+	}
+	//updates labels with info
 	public void setXLabel(JLabel Xlabel){
 		xwin=Xlabel;
 	}
@@ -38,13 +45,13 @@ public class TicTacToe {
 	public void setTurnLabel(JLabel Turnlabel){
 		turn=Turnlabel;
 	}
-	public String getTurn(){
-		if(xTurn)
-			return " X turn: ";
-		else
-			return " O turn: ";
-	}
 	
+	/*ActionListerner declared below, this actionlistener was made to notify the appropriate classes
+	 * that there is currently a game activate. At this time only the Form.java needs to be notified so
+	 * that the appropriate buttons can be turned off, so that user can't modify them while a game is active.
+	 * This is required since we currently allow the user to either play against another, on the same computer,
+	 * or they can run a computer vs computer game. 
+	 */
 	//the people listening to event
 	private List<ActionListener> gameStateChanged = new ArrayList<ActionListener>();
 	//this is method used to add new listeners
@@ -59,9 +66,12 @@ public class TicTacToe {
 			listener.actionPerformed(new ActionEvent(this, 0, "GameStateChanged"));
 		}
 	}
-	
-	//Made MoveListener Interface because I need to pass in a position & text
-	//and an ActionListener don't cut it
+	/*This MoveListener was created/declared because we don't want the game engine to know  
+	 *about our form. So when a move is made we need a way to pass on that information to the 
+	 *form in order for it to be displayed to user. So atm we use this just to tell the Form.java
+	 *to change its buttons to either "X" or "O". Because we need to pass on both a position & text 
+	 *to display we made our own Listener, calling it MoveListener.
+	 */
 	private List<MoveListener> moveMade = new ArrayList<MoveListener>(); //Make list to hold subscribed listeners
 	//Method to subscribe new listeners to this event
 	public void addMoveMadeListener(MoveListener moveListener) {
@@ -81,7 +91,7 @@ public class TicTacToe {
 		comMove();
 		
 	}
-	//computer takes move
+	//computer makes move
 	public void comMove(){
 		if (xTurn) {
 			comX.move();
@@ -114,7 +124,7 @@ public class TicTacToe {
 		CheckVictory();
 	
 		//if we got AI make another AImove
-		if(comX!=null && comO !=null){
+		if(comX!=null && comO!=null){
 			comMove();
 		}
 	}
